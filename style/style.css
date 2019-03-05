@@ -1,0 +1,24 @@
+.col-md-12.flexible {
+    display: flex;
+}
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+.news {
+    line-height:24pt;
+    border-top: 1px solid;
+}
+
+div.col-md-8 > div:nth-of-type(odd) {
+    background: #e8e1e1;
+}
+div.news_colomn{
+	display: flex;
+    flex-direction: column;
+}
+.border {
+    margin-top: 39px;
+    border-top: 4px solid!important;
+}
