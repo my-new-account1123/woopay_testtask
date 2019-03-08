@@ -1,5 +1,9 @@
 <?php require_once 'DbLayer.php';
 $DbLayer = new DbLayer('news');
+session_start();
+function regenerate() {
+    $_SESSION['code'] = uniqid();
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -66,26 +70,27 @@ $DbLayer = new DbLayer('news');
 	<div class="container">
 		<div class="col-md-12 flexible">
 			<div class="col-md-8 news_colomn">
-				<?php if(isset($_GET["find_id"])): ?>
-					<?php $DbLayer->findOneById($_GET["find_id"]);?>
+				<?php if(isset($_GET['find_id'])): ?>
+					<?php $DbLayer->findOneById($_GET['find_id']);?>
 
-					<?php elseif(isset($_GET["user_id"],$_GET["status_news"])): ?>
-						<?php $DbLayer->findAllByAttributes($_GET["user_id"],$_GET["status_news"]);?>
+					<?php elseif(isset($_GET['user_id'])??($_GET['status_news'])): ?>
+						<?php $DbLayer->findAllByAttributes(['user_id'=>$_GET["user_id"],'status_news'=>$_GET['status_news']]);?>
 
 						<?php else: ?>
 							<?php $DbLayer->findAll();?>
 						<?php endif; ?>
 
-						<?php if(isset($_GET["delete_id"])): ?>
-							<?php $DbLayer->deleteById($_GET["delete_id"]);?>
+						<?php if(isset($_GET['delete_id'])): ?>
+							<?php $DbLayer->deleteById($_GET['delete_id']);?>
 						<?php endif; ?>
 
-						<?php if(isset($_GET["create_title"])&&($_GET["create_description"])&&($_GET["status"])):?>
-						<?php $DbLayer->create($_SESSION['code'],$_GET["create_title"],$_GET["create_description"],$_GET["status"]);?>
+						<?php if(isset($_GET['create_title'])&&($_GET['create_description'])&&($_GET['status'])):?>
+				<?php $DbLayer->create(['user_id'=>$_SESSION['code'],'title'=>$_GET['create_title'],'description'=>$_GET['create_description'],'status'=>$_GET['status']]);?>
 					<?php endif; ?>
 
-					<?php if(isset($_GET["update_id"])&&($_GET["update_title"])&&($_GET["update_description"])):?>
-					<?php $DbLayer->updateById($_GET["update_id"],$_GET["update_title"],$_GET["update_description"],$_GET["status"]);?>
+					<?php if(isset($_GET['update_id'])&&($_GET['update_title'])&&($_GET['update_description'])):?>
+					<?php $DbLayer->updateById(['update_id'=>$_GET['update_id'],'update_title'=>$_GET['update_title'],'update_description'=>$_GET['update_description'],
+					'status'=>$_GET['status']]);?>
 				<?php endif; ?>
 			</div>
 			<div class="col-md-4">
